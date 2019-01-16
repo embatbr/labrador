@@ -11,7 +11,8 @@ setup(
     author_email='embatbr@gmail.com',
     license='WTFPL',
     packages=[
-        'labrador'
+        'labrador',
+        'labrador.retrievers'
     ],
     include_package_data=True,
     install_requires=[
