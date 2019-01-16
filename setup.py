@@ -16,7 +16,6 @@ setup(
     ],
     include_package_data=True,
     install_requires=[
-        # 'boto3==1.9.78',
         'google-cloud-bigquery==1.8.1'
     ]
 )
