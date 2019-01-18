@@ -16,6 +16,7 @@ class Sinker(BaseObject):
         BaseObject.__init__(self)
 
     def __enter__(self):
+        self._logger.info('Returning {}', self.my_name)
         return self
 
     def __exit__(self, _type, value, traceback):

@@ -35,6 +35,7 @@ class BigQueryRetriever(Secured, Retriever):
 
         try:
             with open(filepath, 'w') as f:
+                self._logger.info('Writing credentials to file {}', filepath)
                 f.write(self._credentials)
 
             self._client = bigquery.Client.from_service_account_json(filepath)
@@ -47,6 +48,7 @@ class BigQueryRetriever(Secured, Retriever):
         finally:
             self._post_connect()
             if os.path.isfile(filepath):
+                self._logger.info('Removing file {}', filepath)
                 os.remove(filepath)
 
     def _retrieve_row(self):
@@ -62,9 +64,13 @@ class BigQueryRetriever(Secured, Retriever):
         for row in self._retrieve_row():
             rows.append(row)
 
-            if len(rows) == self._fetch_size:
+            row_amount = len(rows)
+            if row_amount == self._fetch_size:
+                self._logger.info('Retrieving {} rows', row_amount)
                 yield rows
                 rows = list()
 
-        if len(rows) > 0:
+        row_amount = len(rows)
+        if row_amount > 0:
+            self._logger.info('Retrieving {} rows', row_amount)
             yield rows

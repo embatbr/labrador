@@ -35,6 +35,7 @@ class S3Sinker(Secured, Sinker):
         try:
             session = boto3.session.Session(**self._credentials)
             self._client = session.resource('s3')
+            self._logger.info('Client {} created', self._client)
 
         except Exception as e:
             self._logger.error('{}: "{}"', e.__class__.__name__, str(e))
@@ -50,3 +51,5 @@ class S3Sinker(Secured, Sinker):
 
         obj = self._client.Object(self._bucket_name, key)
         obj.put(Body=data)
+
+        self._logger.info('Sinking data into s3://{}/{}', self._bucket_name, key)
