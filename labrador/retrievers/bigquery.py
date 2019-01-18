@@ -1,36 +1,32 @@
 #! coding: utf-8
 
-from bombril.cryptography.rsa import decrypt_chunks
 from google.cloud import bigquery
 import hashlib
-import json
 import os
 
+from labrador.accredited import Accredited
 from labrador.retrievers._base import Retriever
 
 
-class BigQueryRetriever(Retriever):
+class BigQueryRetriever(Accredited, Retriever):
 
     def __init__(self, credentials, query, fetch_size=10*1000):
-        super(BigQueryRetriever, self).__init__()
+        Accredited.__init__(self, credentials)
+        Retriever.__init__(self)
 
-        self.__credentials = credentials
         self._query = query
         self._fetch_size = fetch_size
 
     def __enter__(self):
-        self.__connect()
-        return super(BigQueryRetriever, self).__enter__()
+        self._connect()
+        return Retriever.__enter__(self)
 
     def __exit__(self, _type, value, traceback):
-        self.__disconnect()
-        super(BigQueryRetriever, self).__exit__(_type, value, traceback)
+        self._disconnect()
+        Retriever.__exit__(self, _type, value, traceback)
 
-    def __connect(self):
-        # TODO extract to mother class "Secure"
-        private_key_pem = os.environ['PRIVATE_KEY_PEM']
-        self.__credentials = decrypt_chunks(self.__credentials, private_key_pem)
-        del private_key_pem
+    def _connect(self):
+        Accredited._connect(self)
 
         m = hashlib.sha256()
         m.update('bigquery-credentials'.encode('utf8'))
@@ -39,8 +35,7 @@ class BigQueryRetriever(Retriever):
 
         try:
             with open(filepath, 'w') as f:
-                f.write(self.__credentials)
-            del self.__credentials
+                f.write(self._credentials)
 
             self._client = bigquery.Client.from_service_account_json(filepath)
 
@@ -48,11 +43,8 @@ class BigQueryRetriever(Retriever):
             raise e
 
         finally:
+            self._post_connect()
             os.remove(filepath)
-
-    def __disconnect(self):
-        # TODO extract to mother class "Secure"
-        del self._client
 
     def __retrieve_row(self):
         query_job = self._client.query(self._query)

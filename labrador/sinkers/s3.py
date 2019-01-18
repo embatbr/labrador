@@ -1,47 +1,40 @@
 #! coding: utf-8
 
-from bombril.cryptography.rsa import decrypt_chunks
 import boto3
 import json
-import os
 
+from labrador.accredited import Accredited
 from labrador.sinkers._base import Sinker
 
 
-class S3Sinker(Sinker):
+class S3Sinker(Accredited, Sinker):
 
     def __init__(self, credentials):
-        super(S3Sinker, self).__init__()
-
-        self.__credentials = credentials
+        Accredited.__init__(self, credentials)
+        Sinker.__init__(self)
 
     def __enter__(self):
-        self.__connect()
-        return super(S3Sinker, self).__enter__()
+        self._connect()
+        return Sinker.__enter__(self)
 
     def __exit__(self, _type, value, traceback):
-        self.__disconnect()
-        super(S3Sinker, self).__exit__(_type, value, traceback)
+        self._disconnect()
+        Sinker.__exit__(self, _type, value, traceback)
 
-    def __connect(self):
-        # TODO extract to mother class "Secure"
-        private_key_pem = os.environ['PRIVATE_KEY_PEM']
-        self.__credentials = decrypt_chunks(self.__credentials, private_key_pem)
-        del private_key_pem
+    def _connect(self):
+        Accredited._connect(self)
 
-        self.__credentials = json.loads(self.__credentials)
+        self._credentials = json.loads(self._credentials)
 
         try:
-            session = boto3.session.Session(**self.__credentials)
-            del self.__credentials
+            session = boto3.session.Session(**self._credentials)
             self._client = session.resource('s3')
 
         except Exception as e:
             raise e
 
-    def __disconnect(self):
-        # TODO extract to mother class "Secure"
-        del self._client
+        finally:
+            self._post_connect()
 
     def sink(self, data, place):
         obj = self._client.Object(
