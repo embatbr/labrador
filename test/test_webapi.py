@@ -8,6 +8,7 @@ BASE_URL = 'http://localhost:9001'
 
 CREDENTIALS_FILEPATH = sys.argv[1].strip()
 BUCKET_NAME = sys.argv[2].strip()
+TEST_ID = sys.argv[3].strip()
 
 BIGQUERY_CREDENTIALS = open('{}/bigquery.encrypted'.format(CREDENTIALS_FILEPATH)).read()
 S3_CREDENTIALS = open('{}/s3.encrypted'.format(CREDENTIALS_FILEPATH)).read()
@@ -38,7 +39,7 @@ resp = r.post('{}/retrieve'.format(BASE_URL), json={
         "sinker": {
             "credentials": S3_CREDENTIALS,
             "bucket_name": BUCKET_NAME,
-            "key": "dev/labrador/test.jsonl"
+            "key": "dev/labrador/test_{}.jsonl".format(TEST_ID)
         }
     }
 })

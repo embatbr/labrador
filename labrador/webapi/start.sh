@@ -6,4 +6,4 @@ ABS_SCRIPT_DIR="$(cd $REL_SCRIPT_DIR && pwd)"
 cd $ABS_SCRIPT_DIR
 
 
-gunicorn -b 0.0.0.0:9001 main
+gunicorn -b 0.0.0.0:9001 main --workers 10 --timeout 600
