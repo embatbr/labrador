@@ -4,8 +4,8 @@ from google.cloud import bigquery
 import hashlib
 import os
 
-from labrador import Secured
-from labrador.retrievers import Retriever
+from labrador.labrador import Secured
+from labrador.retrievers.retriever import Retriever
 
 
 class BigQueryRetriever(Secured, Retriever):
@@ -74,3 +74,6 @@ class BigQueryRetriever(Secured, Retriever):
         if row_amount > 0:
             self._logger.info('Retrieving {} rows', row_amount)
             yield rows
+
+
+INTERFACE = BigQueryRetriever

@@ -3,7 +3,8 @@
 import falcon
 import json
 
-from labrador import BaseObject
+import labrador
+from labrador.labrador import BaseObject
 
 
 class Controller(BaseObject):
@@ -44,8 +45,6 @@ class RetrieverController(Controller):
     def __init__(self):
         Controller.__init__(self)
 
-        # self.retriever_executor = retriever_executor
-
     def _on_post(self, req, resp):
         payload = req.stream.read()
         try:
@@ -56,18 +55,17 @@ class RetrieverController(Controller):
             self._logger.log_exception(err)
             resp.status = falcon.HTTP_400
 
-#         steps = payload.get('steps')
+        moduler_connectors = getattr(labrador, 'connectors')
+        moduler_retrievers = getattr(labrador, 'retrievers')
+        moduler_sinkers = getattr(labrador, 'sinkers')
 
-#         status = None
-#         try:
-#             self.retriever_executor.submit_job(steps)
-#             status = 'success'
+        connector_cls = getattr(moduler_connectors, payload['connector']).INTERFACE
+        retriever_cls = getattr(moduler_retrievers, payload['retriever']).INTERFACE
+        sinker_cls = getattr(moduler_sinkers, payload['sinker']).INTERFACE
 
-#         except Exception as err:
-#             logger.error(err)
-#             status = 'failed'
+        parameters = payload['parameters']
 
-#         resp.status = falcon.HTTP_200
-#         resp.body = json.dumps({
-#             'status': status
-#         })
+        retriever = retriever_cls(**parameters['retriever'])
+        sinker = sinker_cls(**parameters['sinker'])
+        connector = connector_cls(retriever, sinker)
+        connector.connect()

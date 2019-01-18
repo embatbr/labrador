@@ -2,7 +2,7 @@
 
 import json
 
-from labrador.connectors import Connector
+from labrador.connectors.connector import Connector
 
 
 class JSONListConnector(Connector):
@@ -15,3 +15,6 @@ class JSONListConnector(Connector):
 
         converted_data = '\n'.join([json.dumps(obj) for obj in data])
         return Connector._convert(self, converted_data)
+
+
+INTERFACE = JSONListConnector

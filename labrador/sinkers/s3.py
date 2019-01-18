@@ -3,8 +3,8 @@
 import boto3
 import json
 
-from labrador import Secured
-from labrador.sinkers import Sinker
+from labrador.labrador import Secured
+from labrador.sinkers.sinker import Sinker
 
 
 class S3Sinker(Secured, Sinker):
@@ -53,3 +53,6 @@ class S3Sinker(Secured, Sinker):
         obj.put(Body=data)
 
         self._logger.info('Sinking data into s3://{}/{}', self._bucket_name, key)
+
+
+INTERFACE = S3Sinker

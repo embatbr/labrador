@@ -5,7 +5,7 @@ import os
 import sys
 import time
 
-from labrador.connectors.jsons import JSONListConnector
+from labrador.connectors.jsonlist import JSONListConnector
 from labrador.retrievers.bigquery import BigQueryRetriever
 from labrador.sinkers.s3 import S3Sinker
 
