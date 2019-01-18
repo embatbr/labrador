@@ -4,14 +4,14 @@ from google.cloud import bigquery
 import hashlib
 import os
 
-from labrador.accredited import Accredited
+from labrador.secured import Secured
 from labrador.retrievers._base import Retriever
 
 
-class BigQueryRetriever(Accredited, Retriever):
+class BigQueryRetriever(Secured, Retriever):
 
     def __init__(self, credentials, query, fetch_size=10*1000):
-        Accredited.__init__(self, credentials)
+        Secured.__init__(self, credentials)
         Retriever.__init__(self)
 
         self._query = query
@@ -26,7 +26,7 @@ class BigQueryRetriever(Accredited, Retriever):
         Retriever.__exit__(self, _type, value, traceback)
 
     def _connect(self):
-        Accredited._connect(self)
+        Secured._connect(self)
 
         m = hashlib.sha256()
         m.update('bigquery-credentials'.encode('utf8'))
@@ -46,7 +46,7 @@ class BigQueryRetriever(Accredited, Retriever):
             self._post_connect()
             os.remove(filepath)
 
-    def __retrieve_row(self):
+    def _retrieve_row(self):
         query_job = self._client.query(self._query)
         results = query_job.result()
 
@@ -56,7 +56,7 @@ class BigQueryRetriever(Accredited, Retriever):
     def retrieve(self):
         rows = list()
 
-        for row in self.__retrieve_row():
+        for row in self._retrieve_row():
             rows.append(row)
 
             if len(rows) == self._fetch_size:

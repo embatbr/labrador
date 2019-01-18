@@ -1,13 +1,13 @@
 #! coding: utf-8
 
-"""Module with a single class to define accreditation.
+"""Module with a single class to try to implement some security.
 """
 
 import os
 from bombril.cryptography.rsa import decrypt_chunks
 
 
-class Accredited(object):
+class Secured(object):
 
     def __init__(self, credentials):
         self._credentials = credentials

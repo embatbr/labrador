@@ -3,14 +3,14 @@
 import boto3
 import json
 
-from labrador.accredited import Accredited
+from labrador.secured import Secured
 from labrador.sinkers._base import Sinker
 
 
-class S3Sinker(Accredited, Sinker):
+class S3Sinker(Secured, Sinker):
 
     def __init__(self, credentials):
-        Accredited.__init__(self, credentials)
+        Secured.__init__(self, credentials)
         Sinker.__init__(self)
 
     def __enter__(self):
@@ -22,7 +22,7 @@ class S3Sinker(Accredited, Sinker):
         Sinker.__exit__(self, _type, value, traceback)
 
     def _connect(self):
-        Accredited._connect(self)
+        Secured._connect(self)
 
         self._credentials = json.loads(self._credentials)
 
