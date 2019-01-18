@@ -37,9 +37,9 @@ class S3Sinker(Secured, Sinker):
             self._client = session.resource('s3')
             self._logger.info('Client {} created', self._client)
 
-        except Exception as e:
-            self._logger.error('{}: "{}"', e.__class__.__name__, str(e))
-            raise e
+        except Exception as err:
+            self._logger.log_exception(err)
+            raise err
 
         finally:
             self._post_connect()

@@ -41,9 +41,9 @@ class BigQueryRetriever(Secured, Retriever):
             self._client = bigquery.Client.from_service_account_json(filepath)
             self._logger.info('Client {} created', self._client)
 
-        except Exception as e:
-            self._logger.error('{}: "{}"', e.__class__.__name__, str(e))
-            raise e
+        except Exception as err:
+            self._logger.log_exception(err)
+            raise err
 
         finally:
             self._post_connect()

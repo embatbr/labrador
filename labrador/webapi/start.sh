@@ -6,7 +6,4 @@ ABS_SCRIPT_DIR="$(cd $REL_SCRIPT_DIR && pwd)"
 cd $ABS_SCRIPT_DIR
 
 
-pip install -r requirements.txt
-
-
-gunicorn -b 0.0.0.0:9001 app.main
+gunicorn -b 0.0.0.0:9001 main
