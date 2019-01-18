@@ -5,13 +5,15 @@ defined are not intended to be used outside of this library, althought that is
 not any sort of "prohibition".
 """
 
+from labrador import BaseObject
 
-class Sinker(object):
+
+class Sinker(BaseObject):
     """The base sinker class.
     """
 
     def __init__(self):
-        pass
+        BaseObject.__init__(self)
 
     def __enter__(self):
         return self

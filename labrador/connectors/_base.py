@@ -5,12 +5,15 @@ defined are not intended to be used outside of this library, althought that is
 not any sort of "prohibition".
 """
 
+from labrador import BaseObject
 
-class Connector(object):
+
+class Connector(BaseObject):
     """The base connector class.
     """
 
     def __init__(self, retriever, sinker):
+        BaseObject.__init__(self)
         self._retriever = retriever
         self._sinker = sinker
 

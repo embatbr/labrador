@@ -4,19 +4,19 @@
 """
 
 from bombril.cryptography.rsa import decrypt_chunks
-from bombril.logging import get_logger
 import os
 
+from labrador import BaseObject
 
-class Secured(object):
+
+class Secured(BaseObject):
 
     def __init__(self, credentials):
+        BaseObject.__init__(self)
         self._credentials = credentials
 
-        self._secure_logger = get_logger(__name__)
-
     def _connect(self):
-        self._secure_logger.info('Connecting {}', self.my_name)
+        self._logger.info('Connecting {}', self.my_name)
 
         private_key_pem = os.environ['PRIVATE_KEY_PEM']
         self._credentials = decrypt_chunks(self._credentials, private_key_pem)
@@ -25,13 +25,9 @@ class Secured(object):
     def _post_connect(self):
         del self._credentials
 
-        self._secure_logger.info('{} connected', self.my_name)
+        self._logger.info('{} connected', self.my_name)
 
     def _disconnect(self):
         del self._client
 
-        self._secure_logger.info('{} disconnected', self.my_name)
-
-    @property
-    def my_name(self):
-        return '<{}.{}>'.format(self.__class__.__name__, id(self))
+        self._logger.info('{} disconnected', self.my_name)
