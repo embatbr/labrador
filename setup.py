@@ -12,10 +12,12 @@ setup(
     license='WTFPL',
     packages=[
         'labrador',
-        'labrador.retrievers'
+        'labrador.retrievers',
+        'labrador.sinkers'
     ],
     include_package_data=True,
     install_requires=[
+        'boto3==1.9.80',
         'google-cloud-bigquery==1.8.1'
     ]
 )

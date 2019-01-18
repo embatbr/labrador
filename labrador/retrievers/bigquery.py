@@ -1,11 +1,11 @@
 #! coding: utf-8
 
+from bombril.cryptography.rsa import decrypt_chunks
+from google.cloud import bigquery
 import hashlib
 import json
 import os
 
-from bombril.cryptography.rsa import decrypt_chunks
-from google.cloud import bigquery
 from labrador.retrievers._base import Retriever
 
 
@@ -27,6 +27,7 @@ class BigQueryRetriever(Retriever):
         super(BigQueryRetriever, self).__exit__(_type, value, traceback)
 
     def __connect(self):
+        # TODO extract to mother class "Secure"
         private_key_pem = os.environ['PRIVATE_KEY_PEM']
         self.__credentials = decrypt_chunks(self.__credentials, private_key_pem)
         del private_key_pem
@@ -50,6 +51,7 @@ class BigQueryRetriever(Retriever):
             os.remove(filepath)
 
     def __disconnect(self):
+        # TODO extract to mother class "Secure"
         del self._client
 
     def __retrieve_row(self):
