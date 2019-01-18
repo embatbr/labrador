@@ -12,6 +12,7 @@ setup(
     license='WTFPL',
     packages=[
         'labrador',
+        'labrador.connectors',
         'labrador.retrievers',
         'labrador.sinkers'
     ],

@@ -19,5 +19,5 @@ class Sinker(object):
     def __exit__(self, _type, value, traceback):
         pass
 
-    def sink(self, data, place):
+    def sink(self, data):
         pass
