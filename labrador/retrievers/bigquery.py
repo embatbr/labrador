@@ -4,8 +4,8 @@ from google.cloud import bigquery
 import hashlib
 import os
 
-from labrador.secured import Secured
-from labrador.retrievers._base import Retriever
+from labrador import Secured
+from labrador.retrievers import Retriever
 
 
 class BigQueryRetriever(Secured, Retriever):

@@ -2,7 +2,7 @@
 
 import json
 
-from labrador.connectors._base import Connector
+from labrador.connectors import Connector
 
 
 class JSONListConnector(Connector):

@@ -3,8 +3,8 @@
 import boto3
 import json
 
-from labrador.secured import Secured
-from labrador.sinkers._base import Sinker
+from labrador import Secured
+from labrador.sinkers import Sinker
 
 
 class S3Sinker(Secured, Sinker):
