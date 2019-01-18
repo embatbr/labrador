@@ -19,11 +19,15 @@ class BigQueryRetriever(Retriever):
         self._fetch_size = fetch_size
 
     def __enter__(self):
-        self._client = self.__get_bigquery_client()
+        self.__connect()
         return super(BigQueryRetriever, self).__enter__()
 
-    def __get_bigquery_client(self):
-        private_key_pem = os.environ.get('PRIVATE_KEY_PEM')
+    def __exit__(self, _type, value, traceback):
+        self.__disconnect()
+        super(BigQueryRetriever, self).__exit__(_type, value, traceback)
+
+    def __connect(self):
+        private_key_pem = os.environ['PRIVATE_KEY_PEM']
         self.__credentials = decrypt_chunks(self.__credentials, private_key_pem)
         del private_key_pem
 
@@ -37,7 +41,7 @@ class BigQueryRetriever(Retriever):
                 f.write(self.__credentials)
             del self.__credentials
 
-            client = bigquery.Client.from_service_account_json(filepath)
+            self._client = bigquery.Client.from_service_account_json(filepath)
 
         except Exception as e:
             raise e
@@ -45,7 +49,8 @@ class BigQueryRetriever(Retriever):
         finally:
             os.remove(filepath)
 
-        return client
+    def __disconnect(self):
+        del self._client
 
     def __retrieve_row(self):
         query_job = self._client.query(self._query)

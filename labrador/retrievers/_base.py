@@ -16,7 +16,7 @@ class Retriever(object):
     def __enter__(self):
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, _type, value, traceback):
         pass
 
     def retrieve(self):
