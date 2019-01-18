@@ -21,6 +21,7 @@ class Connector(BaseObject):
         """This method must do simple conversions (for the sinkers). It is not
         intended to be a place to write processing code.
         """
+        self._logger.info('Data converted')
         return data
 
     def connect(self):
