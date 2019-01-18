@@ -38,13 +38,16 @@ class BigQueryRetriever(Secured, Retriever):
                 f.write(self._credentials)
 
             self._client = bigquery.Client.from_service_account_json(filepath)
+            self._logger.info('Client {} created', self._client)
 
         except Exception as e:
+            self._logger.error('{}: "{}"', e.__class__.__name__, str(e))
             raise e
 
         finally:
             self._post_connect()
-            os.remove(filepath)
+            if os.path.isfile(filepath):
+                os.remove(filepath)
 
     def _retrieve_row(self):
         query_job = self._client.query(self._query)

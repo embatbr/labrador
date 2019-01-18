@@ -37,6 +37,7 @@ class S3Sinker(Secured, Sinker):
             self._client = session.resource('s3')
 
         except Exception as e:
+            self._logger.error('{}: "{}"', e.__class__.__name__, str(e))
             raise e
 
         finally:
