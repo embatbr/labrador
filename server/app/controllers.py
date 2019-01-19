@@ -2,7 +2,6 @@
 
 import falcon
 import json
-
 import labrador
 from labrador.labrador import BaseObject
 

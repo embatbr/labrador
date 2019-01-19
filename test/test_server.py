@@ -39,7 +39,7 @@ resp = r.post('{}/retrieve'.format(BASE_URL), json={
         "sinker": {
             "credentials": S3_CREDENTIALS,
             "bucket_name": BUCKET_NAME,
-            "key": "dev/labrador/test_{}.jsonl".format(TEST_ID)
+            "key": "dev/labrador/test_server/worker_{}.jsonl".format(TEST_ID)
         }
     }
 })

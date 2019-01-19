@@ -33,7 +33,7 @@ if __name__ == '__main__':
     sinker = S3Sinker(
         credentials=S3_CREDENTIALS,
         bucket_name=BUCKET_NAME,
-        key='dev/labrador/test.jsonl'
+        key='dev/labrador/test_labrador.jsonl'
     )
 
     connector = JSONListConnector(retriever, sinker)

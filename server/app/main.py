@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-
 import falcon
-
 from labrador.labrador import BaseObject
-from labrador.webapi import controllers
+
+from app import controllers
 
 
 class RESTfulApplication(BaseObject):

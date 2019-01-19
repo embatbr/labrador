@@ -14,14 +14,11 @@ setup(
         'labrador',
         'labrador.connectors',
         'labrador.retrievers',
-        'labrador.sinkers',
-        'labrador.webapi'
+        'labrador.sinkers'
     ],
     include_package_data=True,
     install_requires=[
         'boto3==1.9.80',
-        'falcon==1.4.1',
-        'google-cloud-bigquery==1.8.1',
-        'gunicorn==19.9.0'
+        'google-cloud-bigquery==1.8.1'
     ]
 )
