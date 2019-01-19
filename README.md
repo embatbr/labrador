@@ -28,8 +28,7 @@ $ python setup.py install
 
 ### labrador
 
-Just import the modules, classes, functions and etc., as any normal Python
-package. Ex:
+Just import the modules, classes, functions and etc., as any normal Python package. Ex:
 
 ```bash
 $ workon <YOUR_ENVNAME>
@@ -48,8 +47,9 @@ $ python server/start.sh
 
 ## Testing
 
-Both tests retrieve data from a BigQuery public dataset, JSONify it and saves in
-S3.
+Both tests retrieve data from a BigQuery public dataset, JSONify it and saves in S3.
+
+*For both **labrador** and **server** tests, notice that the credentials sent are encrypted*
 
 ### labrador
 
