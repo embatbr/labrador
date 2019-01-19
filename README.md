@@ -1,11 +1,11 @@
 # Labrador
 
-Labrador is a project aimed to do one thing, and one thing only: *retrieve data from a source*.
+Labrador is a project aimed to do one thing, and one thing only: *to **retrieve** data from a source*.
 
 The project is composed of two packages:
 
-- labrador - a library encapsulating the *retrieve-sink* logic;
-- server - a REST server that uses the library.
+- **labrador** - a library encapsulating the *retrieve-sink* logic;
+- **server** - a REST server that uses the library.
 
 
 ## Build and install
@@ -24,7 +24,7 @@ $ python setup.py install
 ```
 
 
-## Using
+## Usage
 
 ### labrador
 
@@ -43,6 +43,8 @@ $ workon <YOUR_ENVNAME>
 $ export PRIVATE_KEY_PEM=<THE_PEM_PRIVATE_KEY_TO_DECRYPT_THE_CREDENTIALS>
 $ python server/start.sh
 ```
+
+The server is started with 10 workers, each with a timeout of 600 seconds.
 
 
 ## Testing
