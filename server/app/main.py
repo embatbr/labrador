@@ -4,6 +4,7 @@ import falcon
 from labrador.labrador import BaseObject
 
 from app import controllers
+from app import executors
 
 
 class RESTfulApplication(BaseObject):
@@ -24,9 +25,11 @@ class RESTfulApplication(BaseObject):
 
 application = falcon.API()
 
+executor = executors.Executor()
+
 routes = {
     '/health': controllers.HealthController(),
-    '/retrieve': controllers.RetrieverController()
+    '/retrieve': controllers.RetrieverController(executor)
 }
 
 

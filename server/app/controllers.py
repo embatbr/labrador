@@ -2,7 +2,6 @@
 
 import falcon
 import json
-import labrador
 from labrador.labrador import BaseObject
 
 
@@ -41,30 +40,19 @@ class HealthController(Controller):
 
 class RetrieverController(Controller):
 
-    def __init__(self):
+    def __init__(self, executor):
         Controller.__init__(self)
 
+        self._executor = executor
+
     def _on_post(self, req, resp):
-        payload = req.stream.read()
         try:
+            payload = req.stream.read()
             payload = payload.decode('utf8')
             payload = json.loads(payload)
+
+            self._executor.execute(payload)
 
         except json.decoder.JSONDecodeError as err:
             self._logger.log_exception(err)
             resp.status = falcon.HTTP_400
-
-        moduler_connectors = getattr(labrador, 'connectors')
-        moduler_retrievers = getattr(labrador, 'retrievers')
-        moduler_sinkers = getattr(labrador, 'sinkers')
-
-        connector_cls = getattr(moduler_connectors, payload['connector']).INTERFACE
-        retriever_cls = getattr(moduler_retrievers, payload['retriever']).INTERFACE
-        sinker_cls = getattr(moduler_sinkers, payload['sinker']).INTERFACE
-
-        parameters = payload['parameters']
-
-        retriever = retriever_cls(**parameters['retriever'])
-        sinker = sinker_cls(**parameters['sinker'])
-        connector = connector_cls(retriever, sinker)
-        connector.connect()
