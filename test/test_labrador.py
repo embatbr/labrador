@@ -10,11 +10,11 @@ from labrador.retrievers.bigquery import BigQueryRetriever
 from labrador.sinkers.s3 import S3Sinker
 
 
-CREDENTIALS_FILEPATH = sys.argv[1].strip()
+CREDENTIALS_DIRPATH = sys.argv[1].strip()
 BUCKET_NAME = sys.argv[2].strip()
 
-BIGQUERY_CREDENTIALS = open('{}/bigquery.encrypted'.format(CREDENTIALS_FILEPATH)).read()
-S3_CREDENTIALS = open('{}/s3.encrypted'.format(CREDENTIALS_FILEPATH)).read()
+BIGQUERY_CREDENTIALS = open('{}/bigquery.encrypted'.format(CREDENTIALS_DIRPATH)).read()
+S3_CREDENTIALS = open('{}/s3.encrypted'.format(CREDENTIALS_DIRPATH)).read()
 
 
 if __name__ == '__main__':
